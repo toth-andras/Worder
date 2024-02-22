@@ -18,5 +18,5 @@ public class TextFlashcardField: FlashcardFieldBase
     /// <summary>
     /// The style of the additional text data.
     /// </summary>
-    public TextValueStyle Style {get; set; }
+    public TextStyle Style {get; set; }
 }

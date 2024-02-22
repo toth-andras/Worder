@@ -13,5 +13,5 @@ public class TextFlashcardFieldTemplate
     /// <summary>
     /// Stores the style of the flashcard text field.
     /// </summary>
-    public TextValueStyle Style { get; set; }
+    public TextStyle Style { get; set; }
 }

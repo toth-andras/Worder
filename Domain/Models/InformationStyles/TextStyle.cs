@@ -8,7 +8,7 @@ namespace Domain;
 /// Represents a style: a class that stores the information about
 /// presentation of a text piece to the user.
 /// </summary>
-public class TextValueStyle
+public class TextStyle
 {
     /// <summary>
     /// The unique identifier of the style.

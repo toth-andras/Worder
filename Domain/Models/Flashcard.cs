@@ -38,10 +38,10 @@ public class Flashcard
     /// <summary>
     /// The style of the flashcard's term.
     /// </summary>
-    public TextValueStyle TermStyle { get; set; }
+    public TextStyle TermStyle { get; set; }
     
     /// <summary>
     /// The style of the flashcard's definition.
     /// </summary>
-    public TextValueStyle DefinitionStyle { get; set; }
+    public TextStyle DefinitionStyle { get; set; }
 }
