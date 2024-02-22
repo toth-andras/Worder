@@ -5,7 +5,7 @@
 namespace Domain;
 
 /// <summary>
-/// Represents a flashcard field used to attach addititonal
+/// Represents a flashcard field used to attach additional
 /// text data to a flashcard.
 /// </summary>
 public class TextFlashcardField: FlashcardFieldBase

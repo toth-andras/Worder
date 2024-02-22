@@ -28,12 +28,12 @@ public class Flashcard
     /// Any additional data the user has attached to the
     /// flashcard.
     /// </summary>
-    public List<FlashcardFieldBase> Fields { get; set; }
+    public List<FlashcardFieldBase>? Fields { get; set; }
     
     /// <summary>
     /// All tags the user has attached to the flashcard.
     /// </summary>
-    public List<Tag> Tags { get; set; }
+    public List<Tag>? Tags { get; set; }
     
     /// <summary>
     /// The style of the flashcard's term.
