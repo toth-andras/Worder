@@ -13,14 +13,17 @@ public class FlashcardModuleValidator: AbstractValidator<FlashcardModule>
 {
     public FlashcardModuleValidator()
     {
+        // If a validator in a rule chain fails, the following validators will not be invoked.
+        RuleLevelCascadeMode = CascadeMode.Stop;
+        
         RuleFor(x => x.Name).NotNull().NotEmpty().Length(1, 30);
         RuleFor(x => x.Definition).NotNull();
         RuleFor(x => x.Flashcards)
             .NotNull()
             .Must(x => x.Count > 0)
-            .When(x => x.Flashcards is not null, ApplyConditionTo.CurrentValidator);
-        
-        RuleForEach(x => x.Flashcards).SetValidator(new FlashcardValidator())
-            .When(x => x.Flashcards is not null && x.Flashcards.Count > 0);
+            .DependentRules(() =>
+            {
+                RuleForEach(x => x.Flashcards).SetValidator(new FlashcardValidator());
+            });
     }
 }

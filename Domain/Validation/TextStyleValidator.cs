@@ -13,6 +13,9 @@ public class TextStyleValidator: AbstractValidator<TextStyle>
 {
     public TextStyleValidator()
     {
+        // If a validator in a rule chain fails, the following validators will not be invoked.
+        RuleLevelCascadeMode = CascadeMode.Stop;
+        
         RuleFor(x => x.Font).NotNull().NotEmpty();
         RuleFor(x => x.FontSize).GreaterThan((short)0);
         RuleFor(x => x.Color).NotNull().NotEmpty();

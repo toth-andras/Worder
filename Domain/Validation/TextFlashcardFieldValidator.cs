@@ -13,6 +13,9 @@ public class TextFlashcardFieldValidator: AbstractValidator<TextFlashcardField>
 {
     public TextFlashcardFieldValidator()
     {
+        // If a validator in a rule chain fails, the following validators will not be invoked.
+        RuleLevelCascadeMode = CascadeMode.Stop;
+        
         RuleFor(x => x.Name).NotNull().NotEmpty().Length(1, 30);
         RuleFor(x => x.Value).NotNull().NotEmpty().Length(1, 100);
         RuleFor(x => x.Style).SetValidator(new TextStyleValidator());

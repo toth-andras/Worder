@@ -13,6 +13,9 @@ public class TagValidator: AbstractValidator<Tag>
 {
     public TagValidator()
     {
+        // If a validator in a rule chain fails, the following validators will not be invoked.
+        RuleLevelCascadeMode = CascadeMode.Stop;
+        
         RuleFor(x => x.Name).NotNull().NotEmpty().Length(1, 15);
     }
 }
