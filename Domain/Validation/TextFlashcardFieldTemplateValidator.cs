@@ -15,6 +15,7 @@ public class TextFlashcardFieldTemplateValidator: AbstractValidator<TextFlashcar
 {
     public TextFlashcardFieldTemplateValidator()
     {
+        RuleFor(x => x.Name).NotNull().NotEmpty().Length(1, 30);
         RuleFor(x => x.Style).NotNull();
     }
 }
