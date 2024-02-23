@@ -29,7 +29,13 @@ public class FlashcardValidator: AbstractValidator<Flashcard>
         {
             RuleForEach(x => x.Tags).SetValidator(new TagValidator());
         });
-        RuleFor(x => x.TermStyle).SetValidator(new TextStyleValidator());
-        RuleFor(x => x.DefinitionStyle).SetValidator(new TextStyleValidator());
+        RuleFor(x => x.TermStyle).NotNull().DependentRules(() =>
+        {
+            RuleFor(x => x.TermStyle).SetValidator(new TextStyleValidator());
+        });
+        RuleFor(x => x.DefinitionStyle).NotNull().DependentRules(() =>
+        {
+            RuleFor(x => x.DefinitionStyle).SetValidator(new TextStyleValidator());
+        });
     }
 }
