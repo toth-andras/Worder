@@ -8,7 +8,7 @@ namespace Domain.FlashcardTemplates;
 /// Rerpesents a flashcard field template that stores the
 /// information about a flashcard text field.
 /// </summary>
-public class TextFlashcardFieldTemplate
+public class TextFlashcardFieldTemplate: FlashcardFieldTemplateBase
 {
     /// <summary>
     /// Stores the style of the flashcard text field.
