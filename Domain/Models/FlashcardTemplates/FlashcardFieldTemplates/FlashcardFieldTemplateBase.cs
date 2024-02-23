@@ -19,5 +19,5 @@ public abstract class FlashcardFieldTemplateBase
     /// The name of the flashcard field the template stores
     /// information about.
     /// </summary>
-    public int Name { get; }
+    public string Name { get; }
 }
