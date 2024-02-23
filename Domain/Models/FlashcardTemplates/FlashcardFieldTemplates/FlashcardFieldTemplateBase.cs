@@ -20,4 +20,11 @@ public abstract class FlashcardFieldTemplateBase
     /// information about.
     /// </summary>
     public string Name { get; }
+    
+    /// <summary>
+    /// Shows whether the flashcard field the template stores
+    /// information about can be added to flashcard presentation
+    /// in study mode. 
+    /// </summary>
+    public bool CanBeShownInQuestion { get; set; }
 }
