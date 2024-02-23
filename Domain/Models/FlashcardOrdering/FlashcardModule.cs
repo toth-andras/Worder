@@ -7,7 +7,7 @@ namespace Domain;
 /// <summary>
 /// Represents a module: a special class that stores flashcards.
 /// </summary>
-public class FlascardModule
+public class FlashcardModule
 {
     /// <summary>
     /// The unique identifier of the module.
