@@ -18,4 +18,9 @@ public class Tag
     /// The name of the tag.
     /// </summary>
     public string Name { get; set; }
+
+    /// <summary>
+    /// Stores the biggest possible length of the name.
+    /// </summary>
+    public const int MaxNameLength = 15;
 }
