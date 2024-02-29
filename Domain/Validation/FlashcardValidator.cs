@@ -16,8 +16,8 @@ public class FlashcardValidator: AbstractValidator<Flashcard>
         // If a validator in a rule chain fails, the following validators will not be invoked.
         RuleLevelCascadeMode = CascadeMode.Stop;
         
-        RuleFor(x => x.Term).NotNull().NotEmpty().Length(1, 70);
-        RuleFor(x => x.Definition).NotNull().NotEmpty().Length(1, 100);
+        RuleFor(x => x.Term).NotNull().NotEmpty().Length(1, Flashcard.MaxTermLength);
+        RuleFor(x => x.Definition).NotNull().NotEmpty().Length(1, Flashcard.MaxDefinitionLength);
         When(x => x.Fields is not null && x.Fields.Count > 0, () =>
         {
             RuleForEach(x => x.Fields).SetInheritanceValidator(v =>

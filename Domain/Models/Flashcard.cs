@@ -44,4 +44,14 @@ public class Flashcard
     /// The style of the flashcard's definition.
     /// </summary>
     public TextStyle DefinitionStyle { get; set; }
+
+    /// <summary>
+    /// Stores the biggest possible length of the term.
+    /// </summary>
+    public const int MaxTermLength = 70;
+
+    /// <summary>
+    /// Stores the biggest possible length of the definition.
+    /// </summary>
+    public const int MaxDefinitionLength = 100;
 }
