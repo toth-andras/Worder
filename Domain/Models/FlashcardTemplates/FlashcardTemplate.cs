@@ -23,5 +23,10 @@ public class FlashcardTemplate
     /// <summary>
     /// The information about the flashcard's fields.
     /// </summary>
-    public List<FlashcardFieldTemplateBase> FieldTemplates { get; set; } 
+    public List<FlashcardFieldTemplateBase> FieldTemplates { get; set; }
+
+    /// <summary>
+    /// Stores the biggest possible length of the name.
+    /// </summary>
+    public const int MaxNameLength = 30;
 }
