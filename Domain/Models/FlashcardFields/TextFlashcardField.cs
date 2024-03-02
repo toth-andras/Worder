@@ -19,4 +19,9 @@ public class TextFlashcardField: FlashcardFieldBase
     /// The style of the additional text data.
     /// </summary>
     public TextStyle Style {get; set; }
+
+    /// <summary>
+    /// Stores the biggest possible length of the flashcard field value.
+    /// </summary>
+    public const int MaxValueLength = 100;
 }

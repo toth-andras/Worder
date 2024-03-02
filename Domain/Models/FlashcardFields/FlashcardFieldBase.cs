@@ -21,7 +21,7 @@ public abstract class FlashcardFieldBase
     public string Name { get; set; }
     
     /// <summary>
-    /// Shows whether the flascard field can be added to flashcard presentation
+    /// Shows whether the flashcard field can be added to flashcard presentation
     /// in study mode.
     /// <remarks>In other words, this property shows whether the flashcard
     /// field contains any information that might let the user guess the flashcard
@@ -29,4 +29,9 @@ public abstract class FlashcardFieldBase
     /// must be hidden from the user when they study the flashcard.</remarks>
     /// </summary>
     public bool CanBeShownInQuestion { get; set; }
+
+    /// <summary>
+    /// Stores the biggest possible length of flashcard field name.
+    /// </summary>
+    public const int MaxNameLength = 30;
 }
