@@ -29,4 +29,9 @@ public class FlashcardModule
     /// Flashcards that are attached to the module.
     /// </summary>
     public List<Flashcard> Flashcards { get; set; }
+
+    /// <summary>
+    /// Represents the biggest possible length of the flashcard module name.
+    /// </summary>
+    public const int MaxNameLength = 30;
 }
