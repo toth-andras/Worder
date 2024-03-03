@@ -3,7 +3,7 @@
 // Created: 28.2.2024
 
 using Application.ReturnTypes;
-using Domain;
+using Domain.Flashcards;
 using OneOf;
 
 namespace Application.FlashcardModules;

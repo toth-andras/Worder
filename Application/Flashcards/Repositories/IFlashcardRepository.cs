@@ -2,7 +2,7 @@
 // Andras Toth
 // Created: 28.2.2024
 
-using Domain;
+using Domain.Flashcards;
 using OneOf;
 using Application.ReturnTypes;
 

@@ -2,6 +2,8 @@
 // Andras Toth
 // Created: 22.2.2024
 
+using Domain.Flashcards;
+
 namespace Domain.FlashcardTemplates;
 
 /// <summary>

@@ -2,6 +2,7 @@
 // Andras Toth
 // Created: 23.2.2024
 
+using Domain.Flashcards;
 using Domain.Validation;
 
 namespace Domain.UnitTests.ValidationTests;

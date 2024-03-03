@@ -3,6 +3,7 @@
 // Created: 28.2.2024
 
 using OneOf;
+using Domain.Flashcards;
 using Application.ReturnTypes;
 
 namespace Application.Repositories;
@@ -20,7 +21,7 @@ public interface IFlashcardStatisticsRepository
     /// The flashcard statistics or <see cref="NotFound"/>,
     /// such a flashcard statistics is not present in the repository
     /// </returns>
-    public OneOf<Domain.FlashcardStatistics, NotFound> GetById(int id);
+    public OneOf<FlashcardStatistics, NotFound> GetById(int id);
 
     /// <summary>
     /// Returns the flashcard statistics for the flashcard.
@@ -30,7 +31,7 @@ public interface IFlashcardStatisticsRepository
     /// The flashcard statistics for the given flashcard or <see cref="NotFound"/>,
     /// if such a flashcard statistics is not present in the repository
     /// </returns>
-    public OneOf<Domain.FlashcardStatistics, NotFound> GetByFlashcardId(int flashcardId);
+    public OneOf<FlashcardStatistics, NotFound> GetByFlashcardId(int flashcardId);
 
     /// <summary>
     /// Adds the flashcard statistics.
@@ -41,7 +42,7 @@ public interface IFlashcardStatisticsRepository
     /// <see cref="Success"/> if the addition was executed successfully or <see cref="ValidationFailed"/>
     /// if the given flashcards statistics did not pass validation
     /// </returns>
-    public OneOf<Success, ValidationFailed> Add(int flashcardId, Domain.FlashcardStatistics statistics);
+    public OneOf<Success, ValidationFailed> Add(int flashcardId, FlashcardStatistics statistics);
     
     /// <summary>
     /// Updates the data that represents the flashcard statistics to the provided state.
@@ -51,7 +52,7 @@ public interface IFlashcardStatisticsRepository
     /// <see cref="Success"/> if the update was executed successfully or <see cref="ValidationFailed"/>
     /// if the new state did not pass validation
     /// </returns>
-    public OneOf<Success, ValidationFailed> Update(Domain.FlashcardStatistics statistics);
+    public OneOf<Success, ValidationFailed> Update(FlashcardStatistics statistics);
 
     /// <summary>
     /// Removes the flashcard statistics.

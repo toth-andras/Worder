@@ -2,7 +2,7 @@
 // Andras Toth
 // Created: 22.2.2024
 
-namespace Domain;
+namespace Domain.Flashcards;
 
 /// <summary>
 /// Represents a class that stores a flashcard's statistics.

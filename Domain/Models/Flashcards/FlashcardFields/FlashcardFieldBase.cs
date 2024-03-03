@@ -2,7 +2,7 @@
 // Andras Toth
 // Created: 22.2.2024
 
-namespace Domain;
+namespace Domain.Flashcards;
 
 /// <summary>
 /// The base class for all classes that represent flashcard fields — an data
