@@ -29,21 +29,6 @@ public class Flashcard
     /// flashcard.
     /// </summary>
     public List<FlashcardFieldBase>? Fields { get; set; }
-    
-    /// <summary>
-    /// All tags the user has attached to the flashcard.
-    /// </summary>
-    public List<Tag>? Tags { get; set; }
-    
-    /// <summary>
-    /// The style of the flashcard's term.
-    /// </summary>
-    public TextStyle TermStyle { get; set; }
-    
-    /// <summary>
-    /// The style of the flashcard's definition.
-    /// </summary>
-    public TextStyle DefinitionStyle { get; set; }
 
     /// <summary>
     /// Stores the biggest possible length of the term.

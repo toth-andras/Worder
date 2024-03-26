@@ -19,9 +19,5 @@ public class TextFlashcardFieldValidator: AbstractValidator<TextFlashcardField>
         
         RuleFor(x => x.Name).NotNull().NotEmpty().Length(1, FlashcardFieldBase.MaxNameLength);
         RuleFor(x => x.Value).NotNull().NotEmpty().Length(1, TextFlashcardField.MaxValueLength);
-        RuleFor(x => x.Style).NotNull().DependentRules(() =>
-        {
-            RuleFor(x => x.Style).NotNull().SetValidator(new TextStyleValidator());
-        });
     }
 }

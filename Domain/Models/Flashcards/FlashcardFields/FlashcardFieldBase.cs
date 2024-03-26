@@ -15,6 +15,8 @@ public abstract class FlashcardFieldBase
     /// </summary>
     public int Id { get; set; }    
     
+    public int FlashcardId { get; set; }
+    
     /// <summary>
     /// The name of the flashcard field.
     /// </summary>
