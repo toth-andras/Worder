@@ -28,7 +28,7 @@ public class UserService: IUserService
     {
         if (await _repository.GetUserByEmail(email) is not null)
         {
-            throw new EmailAlreadyInUserException($"Email {email} is already in use");
+            throw new EmailAlreadyInUseException($"Email {email} is already in use");
         }
     }
     
