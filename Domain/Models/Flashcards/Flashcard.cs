@@ -14,6 +14,8 @@ public class Flashcard
     /// </summary>
     public int Id { get; set; }
     
+    public int UserId { get; set; }
+    
     /// <summary>
     /// The foreign word stored in the flashcard as a term.
     /// </summary>

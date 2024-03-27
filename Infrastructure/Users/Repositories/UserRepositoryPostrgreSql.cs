@@ -13,11 +13,11 @@ using Npgsql;
 
 namespace Infrastructure.Users.Repositories;
 
-public class UserRepositoryPostgre : IUserRepository
+public class UserRepositoryPostgreSql : IUserRepository
 {
     private readonly string _connectionString;
 
-    public UserRepositoryPostgre(IOptions<PostgresOptions> options)
+    public UserRepositoryPostgreSql(IOptions<PostgresOptions> options)
     {
         _connectionString = options.Value.ConnectionString;
     }
