@@ -1,9 +1,11 @@
 using System.Data;
 using Api.Middlewares;
+using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Options;
 using Microsoft.Extensions.Options;
 using Npgsql;
+using Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,8 +26,10 @@ builder.Services.AddRepositories();
 builder.Services.AddServices();
 builder.Services.AddMiddlewares();
 
-
 builder.Services.AddControllers();
+
+builder.Services.AddApiRequestModelValidators();
+
 
 var app = builder.Build();
 

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using ApiRequestModels;
 using Application.Users.Repositories;
 using Application.Users.Services;
 using Domain.Users;
@@ -17,44 +19,44 @@ public class UsersController: ControllerBase
     }
     
     [HttpPost("register")]
-    public async Task<User> Register(string email, string password)
+    public async Task<User> Register([FromBody]EmailPasswordRequest request)
     {
-        return await _userService.CreateUser(email, password);
+        return await _userService.CreateUser(request.Email, request.Password);
     }
 
     [HttpPost("login")]
-    public async Task<User> Login(string email, string password)
+    public async Task<User> Login([FromBody]EmailPasswordRequest request)
     {
-        return await _userService.Login(email, password);
+        return await _userService.Login(request.Email, request.Password);
     }
 
-    [HttpGet("{email}")]
-    public async Task<User> GetByEmail([FromRoute]string email)
+    [HttpGet]
+    public async Task<User> GetByEmail([FromQuery] EmailRequest request)
     {
-        return await _userService.GetUserByEmail(email);
+        return await _userService.GetUserByEmail(request.Email);
     }
 
     [HttpPost("password_check")]
-    public async Task<bool> CheckPassword(string email, string password)
+    public async Task<bool> CheckPassword([FromBody]EmailPasswordRequest request)
     {
-        return await _userService.CheckPassword(email, password);
+        return await _userService.CheckPassword(request.Email, request.Password);
     }
 
     [HttpPut("update/email")]
-    public async Task<User> UpdateEmail(string oldEmail, string newEmail)
+    public async Task<User> UpdateEmail(ChangeEmailRequest request)
     {
-        return await _userService.UpdateEmail(oldEmail, newEmail);
+        return await _userService.UpdateEmail(request.OldEmail, request.NewEmail);
     }
 
     [HttpPut("update/password")]
-    public async Task<User> UpdatePassword(string email, string oldPassword, string newPassword)
+    public async Task<User> UpdatePassword([FromBody]ChangePasswordRequest request)
     {
-        return await _userService.UpdatePassword(email, oldPassword, newPassword);
+        return await _userService.UpdatePassword(request.Email, request.OldPassword, request.NewPassword);
     }
 
     [HttpDelete("delete")]
-    public async Task DeleteUser(string email)
+    public async Task DeleteUser([FromQuery]EmailRequest request)
     {
-        await _userService.Delete(email);
+        await _userService.Delete(request.Email);
     }
 }
