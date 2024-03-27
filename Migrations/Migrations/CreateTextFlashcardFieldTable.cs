@@ -28,9 +28,6 @@ public class CreateTextFlashcardFieldTable: Migration
                     {TextFlashcardFieldTable.FieldName}   varchar({TextFlashcardFieldTable.MaxNameLength})  not null,
                     {TextFlashcardFieldTable.Value}   varchar({TextFlashcardFieldTable.MaxValueLength}) not null,
                     {TextFlashcardFieldTable.CanBeShownInQuestion}   boolean    not null,
-                    {TextFlashcardFieldTable.StyleId}   integer not null
-                        constraint text_flaschcard_fields_text_styles_id_fk
-                            references {SchemaDescriptor.SchemaName}.{TextStyleTable.TableName} on delete restrict
                 );
             ";
         

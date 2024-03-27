@@ -15,6 +15,9 @@ public abstract class FlashcardFieldBase
     /// </summary>
     public int Id { get; set; }    
     
+    /// <summary>
+    /// The id of the flashcard the field is attached to.
+    /// </summary>
     public int FlashcardId { get; set; }
     
     /// <summary>

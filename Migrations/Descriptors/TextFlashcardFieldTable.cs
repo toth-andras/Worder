@@ -14,7 +14,6 @@ public static class TextFlashcardFieldTable
     public static readonly string FieldName = "name";
     public static readonly string Value = "value";
     public static readonly string CanBeShownInQuestion = "can_be_shown_in_question";
-    public static readonly string StyleId = "style_id";
 
     public static readonly int MaxNameLength = FlashcardFieldBase.MaxNameLength;
     public static readonly int MaxValueLength = TextFlashcardField.MaxValueLength;
