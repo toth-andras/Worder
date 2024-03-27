@@ -2,6 +2,7 @@
 // Andras Toth
 // Created: 26.3.2024
 
+using ApiRequestModels;
 using Application.Flashcards.Repositories;
 using Application.Flashcards.Services;
 using Domain.Flashcards;
@@ -21,9 +22,9 @@ public class FlashcardsController : ControllerBase
     }
     
     [HttpPost("create")]
-    public async Task<Flashcard> CreateFlashcard(int userId, string term, string definition, IEnumerable<FlashcardFieldBase>? fields)
+    public async Task<Flashcard> CreateFlashcard([FromBody] CreateFlaschardRequest request)
     {
-        return await _flashcardService.CreateFlashcard(userId, term, definition, fields);
+        return await _flashcardService.CreateFlashcard(request.UserId, request.Term, request.Definition, request.Fields);
     }
 
     [HttpGet("{id:int}")]
@@ -39,9 +40,9 @@ public class FlashcardsController : ControllerBase
     }
 
     [HttpPut("update")]
-    public async Task<Flashcard> UpdateFlashcard(int id, Flashcard newValue)
+    public async Task<Flashcard> UpdateFlashcard([FromBody] UpdateFlashcardRequest request)
     {
-        return await _flashcardService.UpdateFlashcard(id, newValue);
+        return await _flashcardService.UpdateFlashcard(request.FlashcardId, request.NewValue);
     }
     
     [HttpDelete("delete")]

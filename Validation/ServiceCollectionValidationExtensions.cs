@@ -6,6 +6,7 @@ using ApiRequestModels;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
+using Validation.ApiRequestModels.FlashcardsController;
 using Validation.ApiRequestModels.UsersController;
 
 namespace Validation;
@@ -19,6 +20,10 @@ public static class ServiceCollectionValidationExtensions
             .AddScoped<IValidator<EmailRequest>, EmailRequestValidator>()
             .AddScoped<IValidator<ChangePasswordRequest>, ChangePasswordRequestValidator>()
             .AddScoped<IValidator<ChangeEmailRequest>, ChangeEmailRequestValidator>()
+            
+            .AddScoped<IValidator<CreateFlaschardRequest>, CreateFlashcardRequestValidator>()
+            .AddScoped<IValidator<UpdateFlashcardRequest>, UpdateFlashcardRequestValidator>()
+            
             .AddFluentValidationAutoValidation();;
     }
 }
