@@ -12,10 +12,12 @@ namespace Api.Middlewares;
 public class ExceptionHandlingMiddleware : IMiddleware
 {
     private IWebHostEnvironment _environment;
+    private ILogger<ExceptionHandlingMiddleware> _logger;
 
-    public ExceptionHandlingMiddleware(IWebHostEnvironment environment)
+    public ExceptionHandlingMiddleware(IWebHostEnvironment environment, ILogger<ExceptionHandlingMiddleware> logger)
     {
         _environment = environment;
+        _logger = logger;
     }
     
     private async Task SetResponseOnError(HttpResponse response, int responseCode, Exception? exception = null, string? message = null,
@@ -44,10 +46,11 @@ public class ExceptionHandlingMiddleware : IMiddleware
         }
         catch (EmailAlreadyInUseException e)
         {
-            await SetResponseOnError(context.Response, (int) HttpStatusCode.BadRequest, e, "Incorrect password", true);
+            await SetResponseOnError(context.Response, (int) HttpStatusCode.BadRequest, e, "Email duplicate", true);
         }
         catch (Exception e)
         {
+            _logger.LogCritical(e, $"Internal server error in {context.Request.HttpContext.TraceIdentifier} request");
             await SetResponseOnError(context.Response, (int) HttpStatusCode.InternalServerError, e, "Internal error",
                 _environment.IsDevelopment());
         }
