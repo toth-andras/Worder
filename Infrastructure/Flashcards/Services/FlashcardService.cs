@@ -3,6 +3,7 @@
 // Created: 26.3.2024
 
 using System.Data;
+using Application.Flashcards.FlashcardFields.Repositories;
 using Application.Flashcards.Repositories;
 using Application.Flashcards.Services;
 using Domain.Flashcards;
@@ -11,16 +12,20 @@ namespace Infrastructure.Flashcards.Services;
 
 public class FlashcardService : IFlashcardService
 {
-    private IDbConnection _dbConnection;
-    private IFlashcardCoreRepository _flashcardCoreRepository;
+    private readonly IDbConnection _dbConnection;
+    private readonly IFlashcardCoreRepository _flashcardCoreRepository;
+    private readonly ITextFlashcardFieldRepository _textFieldRepository;
 
-    public FlashcardService(IDbConnection connection, IFlashcardCoreRepository flashcardCoreRepository)
+    public FlashcardService(IDbConnection connection, IFlashcardCoreRepository flashcardCoreRepository,
+        ITextFlashcardFieldRepository textFieldRepository)
     {
         _dbConnection = connection;
         _flashcardCoreRepository = flashcardCoreRepository;
+        _textFieldRepository = textFieldRepository;
     }
 
-    public async Task<Flashcard> CreateFlashcard(int userId, string term, string definition)
+    public async Task<Flashcard> CreateFlashcard(int userId, string term, string definition,
+        IEnumerable<FlashcardFieldBase>? fields)
     {
         using var transaction = _dbConnection.BeginTransaction();
         Flashcard flashcard;
@@ -28,6 +33,16 @@ public class FlashcardService : IFlashcardService
         try
         {
             flashcard = await _flashcardCoreRepository.Create(userId, term, definition, _dbConnection, transaction);
+
+            if (fields is not null)
+            {
+                flashcard.Fields = new List<FlashcardFieldBase>();
+                foreach (var field in fields.OfType<TextFlashcardField>())
+                {
+                    flashcard.Fields.Add(await _textFieldRepository.Create(flashcard.Id, field.Name,
+                        field.CanBeShownInQuestion, field.Value, _dbConnection, transaction));
+                }
+            }
 
             transaction.Commit();
         }
@@ -45,7 +60,12 @@ public class FlashcardService : IFlashcardService
         using var transaction = _dbConnection.BeginTransaction();
         try
         {
-            var flashcard = await _flashcardCoreRepository.GetById(id, _dbConnection);
+            var flashcard = await _flashcardCoreRepository.GetById(id, _dbConnection, transaction);
+
+            flashcard.Fields = new List<FlashcardFieldBase>();
+            flashcard.Fields.AddRange(
+                await _textFieldRepository.GetFlashcardTextFields(id, _dbConnection, transaction));
+
             transaction.Commit();
             return flashcard;
         }
@@ -62,8 +82,18 @@ public class FlashcardService : IFlashcardService
 
         try
         {
-            var flashcardCores = await _flashcardCoreRepository.GetByUserId(userId, _dbConnection, transaction);
-            
+            var flashcardCores = (await _flashcardCoreRepository.GetByUserId(userId, _dbConnection, transaction)).ToList();
+            foreach (var flashcard in flashcardCores)
+            {
+                var textFields = await _textFieldRepository.GetFlashcardTextFields(flashcard.Id, _dbConnection, transaction);
+                var textFlashcardFields = textFields as TextFlashcardField[] ?? textFields.ToArray();
+                if (textFlashcardFields.Length != 0)
+                {
+                    flashcard.Fields = new List<FlashcardFieldBase>();
+                    flashcard.Fields.AddRange(textFlashcardFields);
+                }
+            }
+
             transaction.Commit();
             return flashcardCores;
         }
@@ -81,7 +111,15 @@ public class FlashcardService : IFlashcardService
         try
         {
             var flashcard = await _flashcardCoreRepository.Update(id, newValue, _dbConnection, transaction);
-            
+
+            newValue.Fields ??= [];
+            flashcard.Fields = new List<FlashcardFieldBase>();
+            flashcard.Fields.AddRange(await UpdateTextFields(id, newValue.Fields.OfType<TextFlashcardField>().ToList(), _dbConnection, transaction));
+            if (flashcard.Fields.Count == 0)
+            {
+                flashcard.Fields = null;
+            }
+
             transaction.Commit();
             return flashcard;
         }
@@ -105,5 +143,34 @@ public class FlashcardService : IFlashcardService
             transaction.Rollback();
             throw;
         }
+    }
+
+    private async Task<IEnumerable<FlashcardFieldBase>> UpdateTextFields(int flashcardId,
+        List<TextFlashcardField> fields, IDbConnection connection, IDbTransaction? transaction=null)
+    {
+        var fieldsInDataBase = (await _textFieldRepository.GetFlashcardTextFields(flashcardId, connection))
+            .Select(x => x.Id!.Value).ToHashSet();
+        
+        var fieldsWithIdInNewState = fields
+            .Where(x => x.Id is not null)
+            .Select(x => x.Id!.Value)
+            .ToHashSet();
+        
+        foreach (var id in fieldsInDataBase.Except(fieldsWithIdInNewState))
+        {
+            await _textFieldRepository.Delete(id, connection, transaction);
+        }
+
+        List<TextFlashcardField> updated = new(fields.Count);
+        foreach (var field in fields)
+        {
+            updated.Add(
+                field.Id is null 
+                    ? await _textFieldRepository.Create(flashcardId, field.Name, field.CanBeShownInQuestion, field.Value, connection, transaction)
+                    : await _textFieldRepository.Update(field.Id!.Value, field, connection, transaction)
+            );
+        }
+
+        return updated;
     }
 }

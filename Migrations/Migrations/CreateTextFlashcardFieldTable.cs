@@ -17,7 +17,7 @@ public class CreateTextFlashcardFieldTable: Migration
 
         var query = 
             $@"
-                create table {TextFlashcardFieldTable.TableName}
+                create table {SchemaDescriptor.SchemaName}.{TextFlashcardFieldTable.TableName}
                 (
                     {TextFlashcardFieldTable.Id}    serial
                         constraint text_flaschcard_fields_pk
@@ -27,7 +27,7 @@ public class CreateTextFlashcardFieldTable: Migration
                             references {SchemaDescriptor.SchemaName}.{FlashcardTable.TableName} on delete cascade,
                     {TextFlashcardFieldTable.FieldName}   varchar({TextFlashcardFieldTable.MaxNameLength})  not null,
                     {TextFlashcardFieldTable.Value}   varchar({TextFlashcardFieldTable.MaxValueLength}) not null,
-                    {TextFlashcardFieldTable.CanBeShownInQuestion}   boolean    not null,
+                    {TextFlashcardFieldTable.CanBeShownInQuestion}   boolean    not null
                 );
             ";
         

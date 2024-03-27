@@ -2,10 +2,14 @@
 // Andras Toth
 // Created: 26.3.2024
 
+using Application.Flashcards.FlashcardFields.Repositories;
+using Application.Flashcards.FlashcardFields.Services;
 using Application.Flashcards.Repositories;
 using Application.Flashcards.Services;
 using Application.Users.Repositories;
 using Application.Users.Services;
+using Infrastructure.Flashcards.FlashcardFields.TextFields.Repositories;
+using Infrastructure.Flashcards.FlashcardFields.TextFields.Services;
 using Infrastructure.Flashcards.Repositories;
 using Infrastructure.Flashcards.Services;
 using Infrastructure.Users.Repositories;
@@ -20,13 +24,15 @@ public static class DiExtensions
     {
         return collection
             .AddScoped<IUserRepository, UserRepositoryPostgreSql>()
-            .AddScoped<IFlashcardCoreRepository, FlashcardCoreRepositoryPostgreSql>();
+            .AddScoped<IFlashcardCoreRepository, FlashcardCoreRepositoryPostgreSql>()
+            .AddScoped<ITextFlashcardFieldRepository, TextFlashcardFieldRepositoryPosgreSql>();
     }
 
     public static IServiceCollection AddServices(this IServiceCollection collection)
     {
         return collection
             .AddScoped<IUserService, UserService>()
-            .AddScoped<IFlashcardService, FlashcardService>();
+            .AddScoped<IFlashcardService, FlashcardService>()
+            .AddScoped<ITextFlashcardFieldService, TextFlashcardFieldService>();
     }
 }

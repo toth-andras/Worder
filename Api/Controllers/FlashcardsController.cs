@@ -21,9 +21,9 @@ public class FlashcardsController : ControllerBase
     }
     
     [HttpPost("create")]
-    public async Task<Flashcard> CreateFlashcard(int userId, string term, string definition)
+    public async Task<Flashcard> CreateFlashcard(int userId, string term, string definition, IEnumerable<FlashcardFieldBase>? fields)
     {
-        return await _flashcardService.CreateFlashcard(userId, term, definition);
+        return await _flashcardService.CreateFlashcard(userId, term, definition, fields);
     }
 
     [HttpGet("{id:int}")]
