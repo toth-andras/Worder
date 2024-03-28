@@ -26,7 +26,8 @@ public class CreateFlashcardTable: Migration
                         constraint flashcards_users_id_fk
                             references {SchemaDescriptor.SchemaName}.{UserTable.TableName} on delete cascade,
                     {FlashcardTable.Term}   varchar({FlashcardTable.MaxTermLength})  not null,
-                    {FlashcardTable.Definition}   varchar({FlashcardTable.MaxDefinitionLength}) not null
+                    {FlashcardTable.Definition}   varchar({FlashcardTable.MaxDefinitionLength}) not null,
+                    {FlashcardTable.Tags} integer[]
                 );
             ";
 

@@ -13,6 +13,7 @@ public static class FlashcardTable
     public static readonly string UserId = "user_id";
     public static readonly string Term = "term";
     public static readonly string Definition = "definition";
+    public static readonly string Tags = "tags";
 
     public static readonly int MaxTermLength = Flashcard.MaxTermLength;
     public static readonly int MaxDefinitionLength = Flashcard.MaxDefinitionLength;

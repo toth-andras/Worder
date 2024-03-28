@@ -31,6 +31,11 @@ public class Flashcard
     /// flashcard.
     /// </summary>
     public List<FlashcardFieldBase>? Fields { get; set; }
+    
+    /// <summary>
+    /// A collection of tags attached to the flashcard.
+    /// </summary>
+    public List<Tag>? Tags { get; set; }
 
     /// <summary>
     /// Stores the biggest possible length of the term.

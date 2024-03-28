@@ -15,6 +15,11 @@ public class Tag
     public int Id { get; set; }
     
     /// <summary>
+    /// The unique identifier of the tag's owner.
+    /// </summary>
+    public int UserId { get; set; }
+    
+    /// <summary>
     /// The name of the tag.
     /// </summary>
     public string Name { get; set; }

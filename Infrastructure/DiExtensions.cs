@@ -4,6 +4,7 @@
 
 using Application.Flashcards.FlashcardFields.Repositories;
 using Application.Flashcards.FlashcardFields.Services;
+using Application.Flashcards.FlashcardSetCollectors.Learning;
 using Application.Flashcards.FlashcardSetCollectors.Revising;
 using Application.Flashcards.Repositories;
 using Application.Flashcards.Services;
@@ -12,15 +13,16 @@ using Application.FlashcardStatistics.Services.ForgetfulnessProbability;
 using Application.Repositories;
 using Application.Users.Repositories;
 using Application.Users.Services;
-using Domain.Flashcards;
 using Infrastructure.Flashcards.FlashcardFields.TextFields.Repositories;
 using Infrastructure.Flashcards.FlashcardFields.TextFields.Services;
 using Infrastructure.Flashcards.FlashcardSetCollectors;
+using Infrastructure.Flashcards.FlashcardSetCollectors.Learning;
 using Infrastructure.Flashcards.FlashcardStatistics.Repositories;
 using Infrastructure.Flashcards.FlashcardStatistics.Services;
 using Infrastructure.Flashcards.FlashcardStatistics.Services.ForgetfulnessProbability;
 using Infrastructure.Flashcards.Repositories;
 using Infrastructure.Flashcards.Services;
+using Infrastructure.Flashcards.Tags.Repositories;
 using Infrastructure.Users.Repositories;
 using Infrastructure.Users.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,7 +37,8 @@ public static class DiExtensions
             .AddScoped<IUserRepository, UserRepositoryPostgreSql>()
             .AddScoped<IFlashcardCoreRepository, FlashcardCoreRepositoryPostgreSql>()
             .AddScoped<ITextFlashcardFieldRepository, TextFlashcardFieldRepositoryPosgreSql>()
-            .AddScoped<IFlashcardStatisticsRepository, FlashcardStatisticsRepositoryPostgreSql>();
+            .AddScoped<IFlashcardStatisticsRepository, FlashcardStatisticsRepositoryPostgreSql>()
+            .AddScoped<ITagRepository, TagRepositoryPostgreSql>();
     }
 
     public static IServiceCollection AddServices(this IServiceCollection collection)
@@ -46,6 +49,7 @@ public static class DiExtensions
             .AddScoped<ITextFlashcardFieldService, TextFlashcardFieldService>()
             .AddScoped<IFlashcardStatisticsService, FlashcardStatisticsService>()
             .AddScoped<IForgetfulnessProbabilityService, EbbinghausForgetfulnessProbabilityService>()
-            .AddScoped<IRevisionFlashcardSetCollector, RevisionFlashcardSetCollector>();
+            .AddScoped<IRevisionFlashcardSetCollector, RevisionFlashcardSetCollector>()
+            .AddScoped<ILearningFlashcardSetCollector, LearningFlashcardSetCollector>();
     }
 }
