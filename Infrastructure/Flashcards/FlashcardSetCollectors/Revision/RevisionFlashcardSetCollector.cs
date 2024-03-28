@@ -39,6 +39,7 @@ public class RevisionFlashcardSetCollector : IRevisionFlashcardSetCollector
         return revisionCandidates
             .OrderBy(x => x.forgetfullnessProbability)
             .ThenBy(x => x.statistics.LastAnswerCorrect ?? false)
-            .Select(x => x.flashcard);
+            .Select(x => x.flashcard)
+            .Take(amount);
     }
 }
