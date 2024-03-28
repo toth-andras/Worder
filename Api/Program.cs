@@ -35,6 +35,8 @@ var app = builder.Build();
 
 app.MapControllers();
 
+//app.AddDapperMappers();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

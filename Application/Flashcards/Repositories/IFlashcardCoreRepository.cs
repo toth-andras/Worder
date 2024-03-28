@@ -9,15 +9,31 @@ namespace Application.Flashcards.Repositories;
 
 public interface IFlashcardCoreRepository
 {
-    public Task<Flashcard> Create(int userId, string term, string definition, IDbConnection connection,
+    public Task<Flashcard> Create(
+        int userId,
+        string term,
+        string definition,
+        IDbConnection connection,
         IDbTransaction? transaction = null);
 
-    public Task<Flashcard> GetById(int id, IDbConnection connection, IDbTransaction? transaction=null);
-
-    public Task<IEnumerable<Flashcard>> GetByUserId(int userId, IDbConnection connection, IDbTransaction? transaction=null);
-
-    public Task<Flashcard> Update(int id, Flashcard newValue, IDbConnection connection,
+    public Task<Flashcard> GetById(
+        int id,
+        IDbConnection connection,
         IDbTransaction? transaction = null);
 
-    public Task Delete(int id, IDbConnection connection, IDbTransaction? transaction=null);
+    public Task<IEnumerable<Flashcard>> GetByUserId(
+        int userId,
+        IDbConnection connection,
+        IDbTransaction? transaction = null);
+
+    public Task<Flashcard> Update(
+        int id,
+        Flashcard newValue,
+        IDbConnection connection,
+        IDbTransaction? transaction = null);
+
+    public Task Delete(
+        int id,
+        IDbConnection connection,
+        IDbTransaction? transaction = null);
 }

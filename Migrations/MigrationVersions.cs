@@ -18,7 +18,8 @@ public enum MigrationVersions: long
     CreateFlashcardTable = 60,
     CreateTextFlashcardFieldTable = 70,
     CreateTagTable = 80,
-    CreateFlashcardStatisticsTable = 90,
+    CreateFlashcardToTagTable = 90,
+    CreateFlashcardStatisticsTable = 91,
     CreateFlashcardTemplateTable = 100,
     CreateTextFlashcardFieldTemplateTable = 110
 }

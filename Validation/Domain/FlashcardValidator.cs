@@ -26,5 +26,9 @@ public class FlashcardValidator: AbstractValidator<Flashcard>
                 v.Add<TextFlashcardField>(new TextFlashcardFieldValidator());
             });
         });
+        When(x => x.Tags is not null && x.Tags.Count > 0, () =>
+        {
+            RuleForEach(x => x.Tags).SetValidator(new TagValidator());
+        });
     }
 }

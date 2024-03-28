@@ -11,8 +11,10 @@ using Application.Flashcards.Services;
 using Application.FlashcardStatistics.Services;
 using Application.FlashcardStatistics.Services.ForgetfulnessProbability;
 using Application.Repositories;
+using Application.Services;
 using Application.Users.Repositories;
 using Application.Users.Services;
+using Dapper;
 using Infrastructure.Flashcards.FlashcardFields.TextFields.Repositories;
 using Infrastructure.Flashcards.FlashcardFields.TextFields.Services;
 using Infrastructure.Flashcards.FlashcardSetCollectors;
@@ -23,13 +25,15 @@ using Infrastructure.Flashcards.FlashcardStatistics.Services.ForgetfulnessProbab
 using Infrastructure.Flashcards.Repositories;
 using Infrastructure.Flashcards.Services;
 using Infrastructure.Flashcards.Tags.Repositories;
+using Infrastructure.Flashcards.Tags.Services;
 using Infrastructure.Users.Repositories;
 using Infrastructure.Users.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure;
 
-public static class DiExtensions
+public static class Extensions
 {
     public static IServiceCollection AddRepositories(this IServiceCollection collection)
     {
@@ -50,6 +54,8 @@ public static class DiExtensions
             .AddScoped<IFlashcardStatisticsService, FlashcardStatisticsService>()
             .AddScoped<IForgetfulnessProbabilityService, EbbinghausForgetfulnessProbabilityService>()
             .AddScoped<IRevisionFlashcardSetCollector, RevisionFlashcardSetCollector>()
-            .AddScoped<ILearningFlashcardSetCollector, LearningFlashcardSetCollector>();
+            .AddScoped<ILearningFlashcardSetCollector, LearningFlashcardSetCollector>()
+            .AddScoped<ITagService, TagService>()
+            .AddScoped<IFlashcardTagRelationRepository, FlashcardTagRelationRepositoryPostgreSql>();
     }
 }

@@ -6,5 +6,10 @@ using Domain.Flashcards;
 
 namespace ApiRequestModels;
 
-public record CreateFlaschardRequest(int UserId, string Term, string Definition, IEnumerable<FlashcardFieldBase>? Fields);
+public record CreateFlaschardRequest(
+    int UserId,
+    string Term,
+    string Definition,
+    IEnumerable<FlashcardFieldBase>? Fields,
+    IEnumerable<Tag>? Tags);
 public record UpdateFlashcardRequest(int FlashcardId, Flashcard NewValue);

@@ -8,7 +8,12 @@ namespace Application.Flashcards.Services;
 
 public interface IFlashcardService
 {
-    public Task<Flashcard> CreateFlashcard(int userId, string term, string definition, IEnumerable<FlashcardFieldBase>? fields);
+    public Task<Flashcard> CreateFlashcard(
+        int userId,
+        string term,
+        string definition,
+        IEnumerable<FlashcardFieldBase>? fields,
+        IEnumerable<Tag>? tags);
 
     public Task<Flashcard> GetFlashcard(int id);
 

@@ -12,7 +12,7 @@ public class Tag
     /// <summary>
     /// The unique identifier of the tag.
     /// </summary>
-    public int Id { get; set; }
+    public int? Id { get; set; }
     
     /// <summary>
     /// The unique identifier of the tag's owner.

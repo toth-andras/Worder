@@ -15,7 +15,12 @@ namespace Infrastructure.Flashcards.Repositories;
 
 public class FlashcardCoreRepositoryPostgreSql: IFlashcardCoreRepository
 {
-    public async Task<Flashcard> Create(int userId, string term, string definition, IDbConnection connection, IDbTransaction? transaction=null)
+    public async Task<Flashcard> Create(
+        int userId,
+        string term,
+        string definition,
+        IDbConnection connection,
+        IDbTransaction? transaction=null)
     {
         var query =
             $@"
@@ -29,7 +34,7 @@ public class FlashcardCoreRepositoryPostgreSql: IFlashcardCoreRepository
                     {FlashcardTable.Term} AS {nameof(Flashcard.Term)},
                     {FlashcardTable.Definition} AS {nameof(Flashcard.Definition)}
             ";
-
+        
         if (transaction is not null)
         {
             return await transaction.QuerySingleAsync<Flashcard>(query,

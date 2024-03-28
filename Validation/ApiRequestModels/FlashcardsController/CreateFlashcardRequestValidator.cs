@@ -29,6 +29,10 @@ public class CreateFlashcardRequestValidator : AbstractValidator<CreateFlaschard
                     v.Add<TextFlashcardField>(new TextFlashcardFieldValidator());
                 });
             });
+            When(x => x.Tags is not null, () =>
+            {
+                RuleForEach(x => x.Tags).SetValidator(new TagValidator());
+            });
         });
     }
 }

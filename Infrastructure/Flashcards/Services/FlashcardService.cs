@@ -17,18 +17,31 @@ public class FlashcardService : IFlashcardService
     private readonly IFlashcardCoreRepository _flashcardCoreRepository;
     private readonly ITextFlashcardFieldRepository _textFieldRepository;
     private readonly IFlashcardStatisticsRepository _statisticsRepository;
+    private readonly IFlashcardTagRelationRepository _tagRelationRepository;
+    private readonly ITagRepository _tagRepository;
 
-    public FlashcardService(IDbConnection connection, IFlashcardCoreRepository flashcardCoreRepository,
-        ITextFlashcardFieldRepository textFieldRepository, IFlashcardStatisticsRepository statisticsRepository)
+    public FlashcardService(
+        IDbConnection connection,
+        IFlashcardCoreRepository flashcardCoreRepository,
+        ITextFlashcardFieldRepository textFieldRepository,
+        IFlashcardStatisticsRepository statisticsRepository,
+        IFlashcardTagRelationRepository relationRepository,
+        ITagRepository tagRepository)
     {
         _dbConnection = connection;
         _flashcardCoreRepository = flashcardCoreRepository;
         _textFieldRepository = textFieldRepository;
         _statisticsRepository = statisticsRepository;
+        _tagRelationRepository = relationRepository;
+        _tagRepository = tagRepository;
     }
 
-    public async Task<Flashcard> CreateFlashcard(int userId, string term, string definition,
-        IEnumerable<FlashcardFieldBase>? fields)
+    public async Task<Flashcard> CreateFlashcard(
+        int userId,
+        string term,
+        string definition,
+        IEnumerable<FlashcardFieldBase>? fields,
+        IEnumerable<Tag>? tags)
     {
         using var transaction = _dbConnection.BeginTransaction();
         Flashcard flashcard;
@@ -43,6 +56,24 @@ public class FlashcardService : IFlashcardService
                 {
                     flashcard.Fields.Add(await _textFieldRepository.Create(flashcard.Id, field.Name,
                         field.CanBeShownInQuestion, field.Value, _dbConnection, transaction));
+                }
+            }
+            if (tags is not null)
+            {
+                flashcard.Tags = new List<Tag>();
+                foreach (var tag in tags)
+                {
+                    if (tag.Id is not null)
+                    {
+                        await _tagRelationRepository.CreateRelation(flashcard.Id, tag.Id.Value, _dbConnection, transaction);
+                        flashcard.Tags.Add(tag);
+                        continue;
+                    }
+
+                    var newTag = await _tagRepository.Create(userId, tag.Name, _dbConnection, transaction);
+                    await _tagRelationRepository.CreateRelation(flashcard.Id, newTag.Id!.Value, _dbConnection,
+                        transaction);
+                    flashcard.Tags.Add(newTag);
                 }
             }
 
@@ -69,6 +100,17 @@ public class FlashcardService : IFlashcardService
             flashcard.Fields = new List<FlashcardFieldBase>();
             flashcard.Fields.AddRange(
                 await _textFieldRepository.GetFlashcardTextFields(id, _dbConnection, transaction));
+            if (flashcard.Fields.Count == 0)
+            {
+                flashcard.Fields = null;
+            }
+
+            flashcard.Tags = new List<Tag>();
+            flashcard.Tags.AddRange(await _tagRelationRepository.GetFlashcardTags(flashcard.Id, _dbConnection, transaction));
+            if (flashcard.Tags.Count == 0)
+            {
+                flashcard.Tags = null;
+            }
 
             transaction.Commit();
             return flashcard;
@@ -93,8 +135,15 @@ public class FlashcardService : IFlashcardService
                 var textFlashcardFields = textFields as TextFlashcardField[] ?? textFields.ToArray();
                 if (textFlashcardFields.Length != 0)
                 {
-                    flashcard.Fields = new List<FlashcardFieldBase>();
+                    flashcard.Fields = new List<FlashcardFieldBase>(textFlashcardFields.Length);
                     flashcard.Fields.AddRange(textFlashcardFields);
+                }
+
+                var tags = (await _tagRelationRepository.GetFlashcardTags(flashcard.Id, _dbConnection, transaction)).ToList();
+                if (tags.Count != 0)
+                {
+                    flashcard.Tags = new List<Tag>(tags.Count);
+                    flashcard.Tags.AddRange(tags);
                 }
             }
 
@@ -122,6 +171,14 @@ public class FlashcardService : IFlashcardService
             if (flashcard.Fields.Count == 0)
             {
                 flashcard.Fields = null;
+            }
+
+            newValue.Tags ??= [];
+            flashcard.Tags = new List<Tag>();
+            flashcard.Tags.AddRange(await UpdateTags(flashcard.UserId, flashcard.Id, newValue.Tags, _dbConnection, transaction));
+            if (flashcard.Tags.Count == 0)
+            {
+                flashcard.Tags = null;
             }
 
             transaction.Commit();
@@ -196,5 +253,46 @@ public class FlashcardService : IFlashcardService
         }
 
         return updated;
+    }
+
+    private async Task<IEnumerable<Tag>> UpdateTags(int userId, int flashcardId, List<Tag> currentTags, IDbConnection connection,
+        IDbTransaction? transaction = null)
+    {
+        var tagsInDb = (await _tagRelationRepository.GetFlashcardTags(flashcardId, connection, transaction))
+            .Select(x => x.Id!.Value)
+            .ToHashSet();
+
+        var tagsCurrent = currentTags
+            .Where(x => x.Id is not null)
+            .Select(x => x.Id!.Value)
+            .ToHashSet();
+
+        var tagsToDelete = tagsInDb.Except(tagsCurrent);
+        foreach (var id in tagsToDelete)
+        {
+            await _tagRelationRepository.DeleteRelation(flashcardId, id, connection, transaction);
+        }
+
+        List<Tag> result = new(currentTags.Count);
+        foreach (var tag in currentTags)
+        {
+            if (tag.Id is null)
+            {
+                var newTag = await _tagRepository.Create(userId, tag.Name, connection, transaction);
+                await _tagRelationRepository.CreateRelation(flashcardId, newTag.Id!.Value, connection, transaction);
+                result.Add(newTag);
+            }
+            else 
+            {
+                if (tagsInDb.Contains(tag.Id.Value) is false)
+                {
+                    await _tagRelationRepository.CreateRelation(flashcardId, tag.Id.Value, connection, transaction);
+                }
+                
+                result.Add(tag);
+            }
+        }
+
+        return result;
     }
 }
