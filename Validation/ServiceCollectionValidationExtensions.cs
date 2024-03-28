@@ -8,6 +8,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using Validation.ApiRequestModels.FlashcardsController;
 using Validation.ApiRequestModels.FlashcardSetCollectors;
+using Validation.ApiRequestModels.TagsController;
 using Validation.ApiRequestModels.UsersController;
 
 namespace Validation;
@@ -26,6 +27,9 @@ public static class ServiceCollectionValidationExtensions
             .AddScoped<IValidator<UpdateFlashcardRequest>, UpdateFlashcardRequestValidator>()
             
             .AddScoped<IValidator<FlashcardSetRequest>, FlashcardSetRequestValidator>()
+            
+            .AddScoped<IValidator<CreateTagRequest>, CreateTagRequestValidator>()
+            .AddScoped<IValidator<UpdateTagRequest>, UpdateTagRequestValidator>()
             
             .AddFluentValidationAutoValidation();
     }

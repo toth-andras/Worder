@@ -48,6 +48,10 @@ public class ExceptionHandlingMiddleware : IMiddleware
         {
             await SetResponseOnError(context.Response, (int) HttpStatusCode.BadRequest, e, "Email duplicate", true);
         }
+        catch (TagNameCollisionException e)
+        {
+            await SetResponseOnError(context.Response, (int) HttpStatusCode.BadRequest, e, "Tag name duplicate", true);
+        }
         catch (Exception e)
         {
             _logger.LogCritical(e, $"Internal server error in {context.Request.HttpContext.TraceIdentifier} request");
