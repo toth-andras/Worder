@@ -50,4 +50,15 @@ public class FlashcardsController : ControllerBase
     {
         await _flashcardService.DeleteFlashcard(id);
     }
+
+    [HttpPut("revision/correct/{id:int}")]
+    public async Task OnCorrectFlashcardRevision([FromRoute] int id)
+    {
+        await _flashcardService.OnCorrectRevision(id);
+    }
+    [HttpPut("revision/incorrect/{id:int}")]
+    public async Task OnInCorrectFlashcardRevision([FromRoute] int id)
+    {
+        await _flashcardService.OnIncorrectRevision(id);
+    }
 }

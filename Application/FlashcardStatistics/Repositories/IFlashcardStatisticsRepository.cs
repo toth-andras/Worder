@@ -3,9 +3,7 @@
 // Created: 28.2.2024
 
 using System.Data;
-using OneOf;
-using Domain.Flashcards;
-using Application.ReturnTypes;
+using FlashcardStatisticsClass = Domain.Flashcards.FlashcardStatistics;
 
 namespace Application.Repositories;
 
@@ -14,11 +12,11 @@ namespace Application.Repositories;
 /// </summary>
 public interface IFlashcardStatisticsRepository
 {
-    public Task<FlashcardStatistics> Create(int flashcardId, IDbConnection connection, IDbTransaction? transaction=null);
+    public Task<FlashcardStatisticsClass> Create(int flashcardId, IDbConnection connection, IDbTransaction? transaction=null);
 
-    public Task<FlashcardStatistics> GetByFlashcardId(int flashcardId, IDbConnection connection, IDbTransaction? transaction=null);
+    public Task<FlashcardStatisticsClass> GetByFlashcardId(int flashcardId, IDbConnection connection, IDbTransaction? transaction=null);
 
-    public Task<FlashcardStatistics> Update(int flashcardId, FlashcardStatistics newValue, IDbConnection connection,
+    public Task<FlashcardStatisticsClass> Update(int flashcardId, FlashcardStatisticsClass newValue, IDbConnection connection,
         IDbTransaction? transaction=null);
 
     public Task Delete(int flashcardId, IDbConnection connection, IDbTransaction? transaction=null);

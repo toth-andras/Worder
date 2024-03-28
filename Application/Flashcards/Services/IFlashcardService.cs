@@ -17,4 +17,7 @@ public interface IFlashcardService
     public Task<Flashcard> UpdateFlashcard(int id, Flashcard newValue);
 
     public Task DeleteFlashcard(int id);
+
+    public Task OnCorrectRevision(int id);
+    public Task OnIncorrectRevision(int id);
 }

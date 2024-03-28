@@ -36,4 +36,7 @@ public class FlashcardStatistics
     /// The interval learning box containing the flashcard.
     /// </summary>
     public int FlashCardBox { get; set; }
+
+    public const int MinFlashCardBox = 0;
+    public const int MaxFlashCardBox = 3;
 }

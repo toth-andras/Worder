@@ -6,6 +6,7 @@ using System.Data;
 using Application.Flashcards.FlashcardFields.Repositories;
 using Application.Flashcards.Repositories;
 using Application.Flashcards.Services;
+using Application.Repositories;
 using Domain.Flashcards;
 
 namespace Infrastructure.Flashcards.Services;
@@ -15,13 +16,15 @@ public class FlashcardService : IFlashcardService
     private readonly IDbConnection _dbConnection;
     private readonly IFlashcardCoreRepository _flashcardCoreRepository;
     private readonly ITextFlashcardFieldRepository _textFieldRepository;
+    private readonly IFlashcardStatisticsRepository _statisticsRepository;
 
     public FlashcardService(IDbConnection connection, IFlashcardCoreRepository flashcardCoreRepository,
-        ITextFlashcardFieldRepository textFieldRepository)
+        ITextFlashcardFieldRepository textFieldRepository, IFlashcardStatisticsRepository statisticsRepository)
     {
         _dbConnection = connection;
         _flashcardCoreRepository = flashcardCoreRepository;
         _textFieldRepository = textFieldRepository;
+        _statisticsRepository = statisticsRepository;
     }
 
     public async Task<Flashcard> CreateFlashcard(int userId, string term, string definition,
@@ -33,7 +36,6 @@ public class FlashcardService : IFlashcardService
         try
         {
             flashcard = await _flashcardCoreRepository.Create(userId, term, definition, _dbConnection, transaction);
-
             if (fields is not null)
             {
                 flashcard.Fields = new List<FlashcardFieldBase>();
@@ -43,6 +45,8 @@ public class FlashcardService : IFlashcardService
                         field.CanBeShownInQuestion, field.Value, _dbConnection, transaction));
                 }
             }
+
+            await _statisticsRepository.Create(flashcard.Id, _dbConnection, transaction);
 
             transaction.Commit();
         }
@@ -143,6 +147,26 @@ public class FlashcardService : IFlashcardService
             transaction.Rollback();
             throw;
         }
+    }
+
+    public async Task OnCorrectRevision(int id)
+    {
+        var statistics = await _statisticsRepository.GetByFlashcardId(id, _dbConnection);
+        statistics.LastAnswerCorrect = true;
+        statistics.LastTimeRevisedUtc = DateTime.UtcNow;
+        statistics.FlashCardBox = Math.Min(statistics.FlashCardBox + 1, Domain.Flashcards.FlashcardStatistics.MaxFlashCardBox);
+
+        await _statisticsRepository.Update(id, statistics, _dbConnection);
+    }
+
+    public async Task OnIncorrectRevision(int id)
+    {
+        var statistics = await _statisticsRepository.GetByFlashcardId(id, _dbConnection);
+        statistics.LastAnswerCorrect = false;
+        statistics.LastTimeRevisedUtc = DateTime.UtcNow;
+        statistics.FlashCardBox = Math.Max(statistics.FlashCardBox - 1, Domain.Flashcards.FlashcardStatistics.MinFlashCardBox);
+
+        await _statisticsRepository.Update(id, statistics, _dbConnection);
     }
 
     private async Task<IEnumerable<FlashcardFieldBase>> UpdateTextFields(int flashcardId,
