@@ -6,10 +6,13 @@ using Application.Flashcards.FlashcardFields.Repositories;
 using Application.Flashcards.FlashcardFields.Services;
 using Application.Flashcards.Repositories;
 using Application.Flashcards.Services;
+using Application.Repositories;
 using Application.Users.Repositories;
 using Application.Users.Services;
+using Domain.Flashcards;
 using Infrastructure.Flashcards.FlashcardFields.TextFields.Repositories;
 using Infrastructure.Flashcards.FlashcardFields.TextFields.Services;
+using Infrastructure.Flashcards.FlashcardStatistics.Repositories;
 using Infrastructure.Flashcards.Repositories;
 using Infrastructure.Flashcards.Services;
 using Infrastructure.Users.Repositories;
@@ -25,7 +28,8 @@ public static class DiExtensions
         return collection
             .AddScoped<IUserRepository, UserRepositoryPostgreSql>()
             .AddScoped<IFlashcardCoreRepository, FlashcardCoreRepositoryPostgreSql>()
-            .AddScoped<ITextFlashcardFieldRepository, TextFlashcardFieldRepositoryPosgreSql>();
+            .AddScoped<ITextFlashcardFieldRepository, TextFlashcardFieldRepositoryPosgreSql>()
+            .AddScoped<IFlashcardStatisticsRepository, FlashcardStatisticsRepositoryPostgreSql>();
     }
 
     public static IServiceCollection AddServices(this IServiceCollection collection)

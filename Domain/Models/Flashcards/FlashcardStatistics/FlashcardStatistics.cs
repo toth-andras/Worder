@@ -24,13 +24,13 @@ public class FlashcardStatistics
     /// The date and time the flashcard has been revised for
     /// the last time.
     /// </summary>
-    public DateTime LastTimeRevised { get; set; } 
+    public DateTime? LastTimeRevisedUtc { get; set; } 
     
     /// <summary>
     /// Indicates whether the user answered correctly the
     /// last time he has revised the flashcard.
     /// </summary>
-    public bool LastAnswerCorrect { get; set; }
+    public bool? LastAnswerCorrect { get; set; }
     
     /// <summary>
     /// The interval learning box containing the flashcard.

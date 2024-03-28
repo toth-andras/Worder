@@ -25,9 +25,9 @@ public class CreateFlashcardStatisticsTable: Migration
                     {FlashcardStatisticsTable.FlashcardId}   integer not null
                         constraint flashcard_statistics_flashcards_id_fk
                             references {SchemaDescriptor.SchemaName}.{FlashcardTable.TableName} on delete cascade,
-                    {FlashcardStatisticsTable.LastTimeRevised}   timestamp,
-                    {FlashcardStatisticsTable.LastAnswerCorrect}   boolean,
-                    {FlashcardStatisticsTable.FlashcardBox}   smallint not null
+                    {FlashcardStatisticsTable.LastTimeRevisedUtc}   timestamp default null,
+                    {FlashcardStatisticsTable.LastAnswerCorrect}   boolean default null,
+                    {FlashcardStatisticsTable.FlashcardBox}   smallint not null default 0
                 );
             ";
         

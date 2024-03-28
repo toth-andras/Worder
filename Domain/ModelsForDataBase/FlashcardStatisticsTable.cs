@@ -9,7 +9,7 @@ public static class FlashcardStatisticsTable
     public static readonly string TableName = "flashcard_statistics";
     public static readonly string Id = "id";
     public static readonly string FlashcardId = "flashcard_id";
-    public static readonly string LastTimeRevised = "last_time_revised";
+    public static readonly string LastTimeRevisedUtc = "last_time_revised_utc";
     public static readonly string LastAnswerCorrect = "last_answer_correct";
     public static readonly string FlashcardBox = "flashcard_box";
 }
