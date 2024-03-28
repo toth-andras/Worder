@@ -4,6 +4,7 @@
 
 using Application.Flashcards.FlashcardFields.Repositories;
 using Application.Flashcards.FlashcardFields.Services;
+using Application.Flashcards.FlashcardSetCollectors.Revising;
 using Application.Flashcards.Repositories;
 using Application.Flashcards.Services;
 using Application.FlashcardStatistics.Services;
@@ -14,6 +15,7 @@ using Application.Users.Services;
 using Domain.Flashcards;
 using Infrastructure.Flashcards.FlashcardFields.TextFields.Repositories;
 using Infrastructure.Flashcards.FlashcardFields.TextFields.Services;
+using Infrastructure.Flashcards.FlashcardSetCollectors;
 using Infrastructure.Flashcards.FlashcardStatistics.Repositories;
 using Infrastructure.Flashcards.FlashcardStatistics.Services;
 using Infrastructure.Flashcards.FlashcardStatistics.Services.ForgetfulnessProbability;
@@ -43,6 +45,7 @@ public static class DiExtensions
             .AddScoped<IFlashcardService, FlashcardService>()
             .AddScoped<ITextFlashcardFieldService, TextFlashcardFieldService>()
             .AddScoped<IFlashcardStatisticsService, FlashcardStatisticsService>()
-            .AddScoped<IForgetfulnessProbabilityService, EbbinghausForgetfulnessProbabilityService>();
+            .AddScoped<IForgetfulnessProbabilityService, EbbinghausForgetfulnessProbabilityService>()
+            .AddScoped<IRevisionFlashcardSetCollector, RevisionFlashcardSetCollector>();
     }
 }
