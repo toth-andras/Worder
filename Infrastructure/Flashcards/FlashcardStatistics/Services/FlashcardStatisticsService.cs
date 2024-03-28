@@ -45,7 +45,7 @@ public class FlashcardStatisticsService : IFlashcardStatisticsService
         var statistics = await _repository.GetByFlashcardId(flashcardId, _dbConnection);
         statistics.LastAnswerCorrect = false;
         statistics.LastTimeRevisedUtc = DateTime.UtcNow;
-        statistics.FlashCardBox = Math.Max(statistics.FlashCardBox - 1, FlashcardStatisticsClass.MinFlashCardBox);
+        statistics.FlashCardBox = FlashcardStatisticsClass.MinFlashCardBox;
 
         return await _repository.Update(flashcardId, statistics, _dbConnection);
     }
