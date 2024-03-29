@@ -12,13 +12,15 @@ public static class Extensions
     {
         return serviceCollection
             .AddSingleton<ExceptionHandlingMiddleware>()
-            .AddSingleton<RequestResponseLogMiddleware>();
+            .AddSingleton<RequestResponseLogMiddleware>()
+            .AddScoped<AuthenticationMiddleware>();
     }
 
     public static IApplicationBuilder UseMiddlewares(this WebApplication app)
     {
         return app
             .UseMiddleware<ExceptionHandlingMiddleware>()
+            .UseMiddleware<AuthenticationMiddleware>()
             .UseMiddleware<RequestResponseLogMiddleware>();
     }
     

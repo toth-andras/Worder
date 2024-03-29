@@ -2,6 +2,7 @@
 // Andras Toth
 // Created: 26.3.2024
 
+using Application.Auth;
 using Application.Flashcards.FlashcardFields.Repositories;
 using Application.Flashcards.FlashcardFields.Services;
 using Application.Flashcards.FlashcardSetCollectors.Learning;
@@ -15,6 +16,8 @@ using Application.Services;
 using Application.Users.Repositories;
 using Application.Users.Services;
 using Dapper;
+using Infrastructure.Auth;
+using Infrastructure.Auth.Services;
 using Infrastructure.Flashcards.FlashcardFields.TextFields.Repositories;
 using Infrastructure.Flashcards.FlashcardFields.TextFields.Services;
 using Infrastructure.Flashcards.FlashcardSetCollectors;
@@ -42,7 +45,8 @@ public static class Extensions
             .AddScoped<IFlashcardCoreRepository, FlashcardCoreRepositoryPostgreSql>()
             .AddScoped<ITextFlashcardFieldRepository, TextFlashcardFieldRepositoryPosgreSql>()
             .AddScoped<IFlashcardStatisticsRepository, FlashcardStatisticsRepositoryPostgreSql>()
-            .AddScoped<ITagRepository, TagRepositoryPostgreSql>();
+            .AddScoped<ITagRepository, TagRepositoryPostgreSql>()
+            .AddScoped<ITokenRepository, TokenRepositoryRedis>();
     }
 
     public static IServiceCollection AddServices(this IServiceCollection collection)
@@ -56,6 +60,7 @@ public static class Extensions
             .AddScoped<IRevisionFlashcardSetCollector, RevisionFlashcardSetCollector>()
             .AddScoped<ILearningFlashcardSetCollector, LearningFlashcardSetCollector>()
             .AddScoped<ITagService, TagService>()
-            .AddScoped<IFlashcardTagRelationRepository, FlashcardTagRelationRepositoryPostgreSql>();
+            .AddScoped<IFlashcardTagRelationRepository, FlashcardTagRelationRepositoryPostgreSql>()
+            .AddScoped<IAuthService, AuthService>();
     }
 }

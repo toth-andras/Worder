@@ -52,6 +52,10 @@ public class ExceptionHandlingMiddleware : IMiddleware
         {
             await SetResponseOnError(context.Response, (int) HttpStatusCode.BadRequest, e, "Tag name duplicate", true);
         }
+        catch (NotAuthorizedException e)
+        {
+            await SetResponseOnError(context.Response, (int) HttpStatusCode.Unauthorized, e, "Authentication failure", true);
+        }
         catch (Exception e)
         {
             _logger.LogCritical(e, $"Internal server error in {context.Request.HttpContext.TraceIdentifier} request");

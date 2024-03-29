@@ -15,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<PostgresOptions>(builder.Configuration.GetSection(nameof(PostgresOptions)));
+builder.Services.Configure<RedisOptions>(builder.Configuration.GetSection(nameof(RedisOptions)));
 builder.Services.AddTransient<IDbConnection>(provider =>
 {
     var options = provider.GetRequiredService<IOptions<PostgresOptions>>().Value;
@@ -34,8 +35,6 @@ builder.Services.AddApiRequestModelValidators();
 var app = builder.Build();
 
 app.MapControllers();
-
-//app.AddDapperMappers();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

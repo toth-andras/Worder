@@ -22,6 +22,8 @@ public static class ServiceCollectionValidationExtensions
             .AddScoped<IValidator<EmailRequest>, EmailRequestValidator>()
             .AddScoped<IValidator<ChangePasswordRequest>, ChangePasswordRequestValidator>()
             .AddScoped<IValidator<ChangeEmailRequest>, ChangeEmailRequestValidator>()
+            .AddScoped<IValidator<VerifyTokenRequest>, VerifyTokenRequestValidator>()
+            .AddScoped<IValidator<RefreshTokenRequest>, RefreshTokenRequestValidator>()
             
             .AddScoped<IValidator<CreateFlaschardRequest>, CreateFlashcardRequestValidator>()
             .AddScoped<IValidator<UpdateFlashcardRequest>, UpdateFlashcardRequestValidator>()
