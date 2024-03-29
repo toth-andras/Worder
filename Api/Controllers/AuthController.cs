@@ -24,21 +24,21 @@ public class AuthController : ControllerBase
     }
     
     [HttpPost("register")]
-    public async Task<(User, Token)> Register([FromBody] EmailPasswordRequest request)
+    public async Task<UserTokenResponse> Register([FromBody] EmailPasswordRequest request)
     {
        var result =  await _authService.Register(request.Email, request.Password);
        _logger.Log(LogLevel.Trace, $"Register: user {request.Email} on {DateTime.UtcNow}");
        
-       return result;
+       return new UserTokenResponse(result.Item1, result.Item2);
     }
 
     [HttpPost("login")]
-    public async Task<(User, Token)> Login([FromBody] EmailPasswordRequest request)
+    public async Task<UserTokenResponse> Login([FromBody] EmailPasswordRequest request)
     {
        var result = await _authService.Login(request.Email, request.Password);
        _logger.Log(LogLevel.Trace, $"Login: user {request.Email} on {DateTime.UtcNow}");
 
-       return result;
+       return new UserTokenResponse(result.Item1, result.Item2);
     }
 
     [HttpPut("change/email")]

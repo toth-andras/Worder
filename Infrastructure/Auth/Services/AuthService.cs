@@ -32,7 +32,12 @@ public class AuthService : IAuthService
 
     public async Task<(User, Token)> Login(string email, string password)
     {
-        return await Register(email, password);
+        var user = await _userService.Login(email, password);
+        var token = new Token(email, password);
+        
+        _tokenRepository.SaveToken(user.Id, token);
+
+        return (user, token);
     }
 
     public async Task<User> GetUserByEmail(string email)
